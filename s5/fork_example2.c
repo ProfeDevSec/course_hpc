@@ -22,14 +22,14 @@ int main() {
         printf("Proceso hijo (PID: %d) ejecutándose.\n", getpid()); // Obtener el PID del proceso hijo
         printf("Mi PADRE ES (PID: %d) ejecutándose.\n", ppid);
          sleep(5); // Simula que el proceso hijo está realizando una tarea durante 5 segundos
-         printf("Proceso hijo (PID: %d) ha terminado su tarea y finaliza.\n",
+         printf("Proceso hijo (PID: %d) ha terminado su tarea y finaliza.\n",getpid());
          pid = fork();
          if (pid == 0) {
-             getpid());
+             getpid();
            }else{
              //
         }
-        getpid()); // El proceso hijo termina su ejecución
+        getpid(); // El proceso hijo termina su ejecución
     }
     // Este bloque de código es ejecutado por el proceso padre
     else {

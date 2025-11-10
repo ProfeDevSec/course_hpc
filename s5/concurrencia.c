@@ -24,5 +24,36 @@ int main() {
             exit(0); // Termina el proceso hijo
         }
     }
-    // TODO Código incompleto
+
+    int restantes = NUM_PROCESOS;
+    while (restantes > 0) {
+        int status;
+        pid_t wpid = waitpid(-1, &status, 0); // -1: espera a cualquier hijo
+
+        if (wpid == -1) {
+            return EXIT_FAILURE;
+        }
+
+        // Reportar cómo terminó el hijo
+        if (WIFEXITED(status)) {
+            int code = WEXITSTATUS(status);
+            printf("Padre (PID: %d) recibió finalización de hijo PID %d con exit code %d.\n",
+                   getpid(), wpid, code);
+        } else if (WIFSIGNALED(status)) {
+            int sig = WTERMSIG(status);
+            printf("Padre (PID: %d) detectó que hijo PID %d terminó por señal %d.\n",
+                   getpid(), wpid, sig);
+
+        } else if (WIFSTOPPED(status)) {
+            printf("Hijo PID %d fue detenido por señal %d (no finalizado).\n",
+                   wpid, WSTOPSIG(status));
+        } else if (WIFCONTINUED(status)) {
+            printf("Hijo PID %d fue reanudado tras SIGCONT.\n", wpid);
+        }
+
+        restantes--;
+    }
+
+    printf("Padre (PID: %d): todos los procesos hijos han finalizado.\n", getpid());
+    return EXIT_SUCCESS;
 }
