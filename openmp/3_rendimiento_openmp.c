@@ -49,5 +49,18 @@ int main() {
     printf("Tiempo en paralelo con 4 hilos: %f segundos\n", end_time - start_time);
     printf("Suma con 4 hilos: %f\n", sum);
 
+    // Establecer el número de hilos manualmente (ejemplo 4 hilos)
+    omp_set_num_threads(2);
+    sum = 0.0;
+
+    start_time = omp_get_wtime();
+    #pragma omp parallel for reduction(+:sum)
+    for (i = 0; i < N; i++) {
+        sum += array[i];
+    }
+    end_time = omp_get_wtime();
+    printf("Tiempo en paralelo con 2 hilos: %f segundos\n", end_time - start_time);
+    printf("Suma con 2 hilos: %f\n", sum);
+
     return 0;
 }

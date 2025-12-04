@@ -17,9 +17,9 @@ int main() {
         printf("Hilo %d procesando iteración %d\n", omp_get_thread_num(), i);
     }
     // Directiva 'parallel for' con 'critical' para sincronización
-#pragma omp parallel for [13]
+#pragma omp parallel for
     for (int i = 0; i < 10; i++) {
-#pragma omp critical
+        #pragma omp critical
         {
             sum += i;  // Modificar la variable compartida de forma sincronizada
             printf("Hilo %d sumando %d, total = %d\n", omp_get_thread_num(), i, sum);
@@ -29,7 +29,7 @@ int main() {
     // Directiva 'single' para que solo un hilo ejecute una sección de código [14]
 #pragma omp parallel
     {
-#pragma omp single
+         #pragma omp single
         {
             printf("Esta sección la ejecuta el hilo %d\n", omp_get_thread_num());
         }
@@ -38,7 +38,7 @@ int main() {
 #pragma omp parallel
 {
     printf("Hilo %d antes de la barrera\n", omp_get_thread_num());
-#pragma omp barrier  // Sincronización de todos los hilos [15]
+    #pragma omp barrier  // Sincronización de todos los hilos [15]
     printf("Hilo %d después de la barrera\n", omp_get_thread_num());
 }
     return 0;
